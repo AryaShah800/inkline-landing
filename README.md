@@ -2,13 +2,41 @@
 
 A responsive landing page for **Inkline**, a fictional tool that turns a client-approved proposal into a contract and collects the online signature. Made for the Sankar Group front-end internship assignment. Inkline is not a real product, and every name, price and contact detail on the page is invented.
 
-**Live site:** _add the Vercel link here after deploying_
+**Live site:** [inkline-landing.vercel.app](https://inkline-landing.vercel.app)
 
-![Desktop view of the Inkline landing page](screenshots/desktop.png)
+## Screenshots
 
-| Phone (390 px wide)                              | Form success message                                                    |
-| ------------------------------------------------ | ----------------------------------------------------------------------- |
-| ![Phone view, full page](screenshots/mobile.png) | ![Contact form after a successful submit](screenshots/form-success.png) |
+### Desktop (1440 × 900)
+
+<img src="screenshots/desktop.png" alt="Hero section on desktop with the sample contract signed by the client" width="100%">
+
+<table>
+  <tr>
+    <td width="50%"><img src="screenshots/desktop-features.png" alt="Features grid on desktop"></td>
+    <td width="50%"><img src="screenshots/desktop-pricing.png" alt="Three pricing plans on desktop"></td>
+  </tr>
+  <tr>
+    <td align="center">Features</td>
+    <td align="center">Pricing</td>
+  </tr>
+</table>
+
+### Phone (390 × 844)
+
+<table>
+  <tr>
+    <td width="25%"><img src="screenshots/mobile-hero.png" alt="Hero section on a phone"></td>
+    <td width="25%"><img src="screenshots/mobile-menu.png" alt="Open navigation menu on a phone"></td>
+    <td width="25%"><img src="screenshots/mobile-pricing.png" alt="Pricing section on a phone"></td>
+    <td width="25%"><img src="screenshots/form-success.png" alt="Success message after requesting a demo"></td>
+  </tr>
+  <tr>
+    <td align="center">Hero</td>
+    <td align="center">Menu</td>
+    <td align="center">Pricing</td>
+    <td align="center">Form sent</td>
+  </tr>
+</table>
 
 ## What is on the page
 

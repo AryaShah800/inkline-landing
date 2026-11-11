@@ -230,6 +230,20 @@ async function run() {
 
   await d.evaluate(() => window.scrollTo(0, 0))
   await d.screenshot({ path: path.join(SHOTS_DIR, 'desktop.png') })
+  for (const [id, file] of [
+    ['features-title', 'desktop-features.png'],
+    ['pricing-title', 'desktop-pricing.png'],
+  ]) {
+    await d.evaluate((headingId) => {
+      const heading = document.getElementById(headingId)
+      window.scrollTo({
+        top: window.scrollY + heading.getBoundingClientRect().top - 110,
+        behavior: 'instant',
+      })
+    }, id)
+    await settle(d)
+    await d.screenshot({ path: path.join(SHOTS_DIR, file) })
+  }
   if (REVIEW_DIR)
     await d.screenshot({ path: path.join(REVIEW_DIR, 'desktop-full.png'), fullPage: true })
   await desktop.context.close()
@@ -298,10 +312,31 @@ async function run() {
   await settle(m)
   await m.screenshot({ path: path.join(SHOTS_DIR, 'form-success.png') })
 
+  // Phone screenshots are one screen tall each, so they sit side by side in the README.
   await m.reload({ waitUntil: 'networkidle' })
   await waitForHeroAnimation(m)
   await m.evaluate(() => window.scrollTo(0, 0))
-  await m.screenshot({ path: path.join(SHOTS_DIR, 'mobile.png'), fullPage: true })
+  await m.screenshot({ path: path.join(SHOTS_DIR, 'mobile-hero.png') })
+
+  await m.getByRole('button', { name: 'Open menu' }).click()
+  await m.locator('#mobile-menu').waitFor()
+  await m.screenshot({ path: path.join(SHOTS_DIR, 'mobile-menu.png') })
+  await m.keyboard.press('Escape')
+
+  await m.evaluate(() => {
+    document.activeElement?.blur()
+    const heading = document.querySelector('#pricing-title')
+    window.scrollTo({
+      top: window.scrollY + heading.getBoundingClientRect().top - 100,
+      behavior: 'instant',
+    })
+  })
+  await settle(m)
+  await m.screenshot({ path: path.join(SHOTS_DIR, 'mobile-pricing.png') })
+
+  if (REVIEW_DIR) {
+    await m.screenshot({ path: path.join(REVIEW_DIR, 'mobile-full.png'), fullPage: true })
+  }
   await phone.context.close()
 
   console.log('\nNo sideways scrolling')
