@@ -1,0 +1,156 @@
+@import 'tailwindcss';
+
+/*
+  Design tokens. Every colour, size and font on the page comes from this block.
+  Palette: paper (page), ink (text), pen (the blue people sign in), signed (success), alert (errors).
+  Type scale: 14 / 16 / 20 / 28 / 40 / 56 px, the larger sizes scale down on small screens.
+*/
+@theme {
+  --color-paper: #f2f4f8;
+  --color-sheet: #ffffff;
+  --color-ink: #0f1b3d;
+  --color-ink-soft: #4a5472;
+  --color-ink-muted: #b7c0d8;
+  --color-line: #d8deea;
+  --color-pen: #2b47d1;
+  --color-pen-deep: #1f35a8;
+  --color-pen-tint: #e8ecfb;
+  --color-signed: #17703f;
+  --color-signed-tint: #e3f3ea;
+  --color-alert: #b42318;
+
+  --font-display: 'Newsreader Variable', Georgia, 'Times New Roman', serif;
+  --font-sans: 'Instrument Sans Variable', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  --text-display: clamp(2.25rem, 1.5rem + 3.4vw, 3.5rem);
+  --text-display--line-height: 1.06;
+  --text-display--letter-spacing: -0.02em;
+  --text-h2: clamp(1.75rem, 1.3rem + 1.8vw, 2.5rem);
+  --text-h2--line-height: 1.12;
+  --text-h2--letter-spacing: -0.015em;
+  --text-h3: 1.75rem;
+  --text-h3--line-height: 1.2;
+  --text-lead: 1.25rem;
+  --text-lead--line-height: 1.55;
+}
+
+:root {
+  --header-h: 4.5rem;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+html {
+  color-scheme: light;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background-color: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Headings and the contract text use the serif; optical size adapts the letterforms to the size. */
+.font-display {
+  font-optical-sizing: auto;
+}
+
+/* Anchor targets stop below the sticky header so headings are never hidden under it. */
+section[id],
+footer[id] {
+  scroll-margin-top: var(--header-h);
+}
+
+#home {
+  scroll-margin-top: 0;
+}
+
+/*
+  Hero moment: the client's signature is drawn, then the status flips to "Signed by client".
+  This is the only motion on the page that runs without a click.
+*/
+@keyframes draw-signature {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/*
+  Status chips swap with `visibility`, not opacity, so text is never half transparent
+  (half-transparent text fails contrast audits for the moment it is on screen).
+*/
+@keyframes show {
+  to {
+    visibility: visible;
+  }
+}
+
+@keyframes hide {
+  to {
+    visibility: hidden;
+  }
+}
+
+@keyframes press-stamp {
+  0% {
+    visibility: hidden;
+    scale: 1.35;
+  }
+  1% {
+    visibility: visible;
+    scale: 1.35;
+  }
+  100% {
+    visibility: visible;
+    scale: 1;
+  }
+}
+
+.signature-live {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: draw-signature 1.5s ease-in-out 0.9s forwards;
+}
+
+.chip-signed {
+  visibility: hidden;
+  animation: show 0s linear 2.5s forwards;
+}
+
+.chip-awaiting {
+  animation: hide 0s linear 2.5s forwards;
+}
+
+.stamp {
+  visibility: hidden;
+  animation: press-stamp 0.32s cubic-bezier(0.2, 0.9, 0.3, 1.2) 2.5s forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .signature-live {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+
+  .chip-signed,
+  .stamp {
+    animation: none;
+    visibility: visible;
+  }
+
+  .chip-awaiting {
+    display: none;
+  }
+}
